@@ -66,8 +66,12 @@ class Ancestor
     {
         $relationship = $this->getInverseRelationship($record);
 
-        if ($relationship->exists()) {
-            return $relationship->first();
+        if ($relationship) {
+            $record->loadMissing(
+                $relationship->getRelationName(),
+            );
+
+            return $record->{$relationship->getRelationName()};
         }
 
         return null;
